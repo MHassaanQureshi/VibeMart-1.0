@@ -4,13 +4,6 @@ import ProductClientComponent from "./ProductClientComponent";
 import { Product } from "@/app/types/product";
 import { notFound } from 'next/navigation';
 
-// Define the page props interface
-interface PageProps {
-  params: {
-    id: string;
-  };
-}
-
 // Server-side function to fetch product data
 async function fetchProduct(id: string): Promise<Product> {
   try {
@@ -30,7 +23,8 @@ async function fetchProduct(id: string): Promise<Product> {
   }
 }
 
-export default async function ProductPage({ params }: PageProps) {
+// The next.js app router handles params asynchronously, so make sure to resolve it properly
+export default async function ProductPage({ params }: { params: { id: string } }) {
   try {
     const product = await fetchProduct(params.id);
     
